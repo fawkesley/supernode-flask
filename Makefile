@@ -1,5 +1,6 @@
 .PHONY: run_dev
 run_dev:
+	pipenv sync --dev && \
 	pipenv run ./supernode/app.py
 
 .PHONY: run_production
