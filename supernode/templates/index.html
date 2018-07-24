@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Supernode.li</title>
+    <meta name="description" content="supernode.li is a low-fee, high uptime lightning node with channels to popular merchants.">
+    <link href="{{ url_for('static', filename = 'stylesheets/site.css') }}" rel="stylesheet" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename = 'favicons/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename = 'favicons/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename = 'favicons/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename = 'favicons/site.webmanifest') }}">
+    <link rel="mask-icon" href="{{ url_for('static', filename = 'favicons/safari-pinned-tab.svg') }}" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+  </head>
+  <body>
+
+    <section class="typeset banner">
+      <div class="container">
+        <div class="content">
+          <img src="{{ url_for('static', filename = 'images/supernode.svg') }}" />
+          <p>supernode.li is a low-fee, high uptime lightning node with channels to popular merchants.</p>
+        </div>
+        <div class="barcode">
+          <img src="https://1ml.com/node/02b7aeeb7df1ca12c174a16b3a109c06a04c10f1b19290eb9a137b6cade7efc4a6/qrcode" />
+        </div>
+      </div>
+    </section>
+
+    <section class="typeset">
+      <h2>Open a channel to supernode.li</h2>
+
+      <p>For <strong>lnd</strong> users:</p>
+      <pre>lncli connect 02b7aeeb7df1ca12c174a16b3a109c06a04c10f1b19290eb9a137b6cade7efc4a6@supernodeli:9735</pre>
+
+      <p>For <strong>c-lightning</strong> users:</p>
+      <pre>lightning-cli connect 02b7aeeb7df1ca12c174a16b3a109c06a04c10f1b19290eb9a137b6cade7efc4a6 supernode.li 9735</pre>
+    </section>
+
+  </body>
+</html>
