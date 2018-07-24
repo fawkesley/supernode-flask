@@ -4,4 +4,5 @@ run_dev:
 
 .PHONY: run_production
 run_production:
-	pipenv run uwsgi --socket 0.0.0.0:5000 --protocol=http -w wsgi:app
+	cd supernode; \
+	pipenv run gunicorn --bind 0.0.0.0:8000 wsgi:app

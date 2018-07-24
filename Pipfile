@@ -7,7 +7,7 @@ name = "pypi"
 
 [packages]
 flask = "*"
-uwsgi = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.5"
