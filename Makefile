@@ -5,4 +5,5 @@ run_dev:
 .PHONY: run_production
 run_production:
 	cd supernode; \
+	pipenv sync && \
 	pipenv run gunicorn --bind 0.0.0.0:8000 wsgi:app
