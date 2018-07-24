@@ -1,0 +1,19 @@
+server {
+  listen 80;
+  listen  [::]:80;
+  server_name supernode.li;
+
+  location /.well-known/acme-challenge/ {
+    # For the letsencrypt "webroot" plugin
+    # http://letsencrypt.readthedocs.org/en/latest/using.html#webroot
+    #
+    # $ certbot certonly --webroot -w /etc/letsencrypt/fake-webroot -d supernode.li --deploy-hook 'service nginx reload'
+    
+    root /etc/letsencrypt/fake-webroot;
+  }
+
+  location / {
+    # Redirect everything else from HTTP to HTTPS
+    return 301 https://$host$request_uri;
+  } 
+}

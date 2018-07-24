@@ -1,0 +1,18 @@
+server {
+    listen 80;
+    listen  [::]:80;
+    server_name  fawkesley.com;
+
+    location /.well-known/acme-challenge/ {
+      # For the letsencrypt "webroot" plugin
+      # $ certbot certonly --webroot -w /etc/letsencrypt/fake-webroot -d fawkesley.com --deploy-hook 'service nginx reload'
+      
+      root /etc/letsencrypt/fake-webroot;
+    }
+
+    location / {
+        return 301 https://www.fawkesley.com$request_uri;
+    }
+}
+
+
