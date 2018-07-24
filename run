@@ -1,0 +1,6 @@
+#!/bin/sh -eu
+
+cd supernode
+pipenv sync
+exec pipenv run gunicorn --bind 0.0.0.0:8000 --pid /home/supernode-flask/gunicorn.pid wsgi:app
+
