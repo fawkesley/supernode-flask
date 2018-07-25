@@ -1,7 +1,14 @@
 @import "sassline-base";
+$light-grey: #AAAAAA;
+$dark-grey: #232732;
+$white: #ffffff;
 
-body {
-  margin: 2em 0;
+header {
+  background: $dark-grey;
+  padding: 2rem 2rem 0 2rem;
+  img {
+    max-width: 200px;
+  }
 }
 
 section {
@@ -10,6 +17,20 @@ section {
   @include breakpoint(break-2) {
     max-width: 70%;
   }
+}
+
+div.banner-wrap {
+  background: $dark-grey;
+  padding: 2rem 0;
+  color: $white;
+  margin-bottom: 2rem;
+}
+
+span.client {
+  font-family: Courier;
+  background: #EEEEEE;
+  font-weight: 700;
+  padding: 4px;
 }
 
 section.banner {
@@ -26,9 +47,10 @@ section.banner {
         max-width: 100%;
       }
       p {
-        font-size: 1.8rem;
+        font-size: 2rem;
         line-height: 3rem;
         margin-bottom: 1rem;
+        font-weight: light;
       }
     }
     .barcode {
@@ -42,4 +64,15 @@ section.banner {
       }
     }
   }
+}
+
+.c-lightning-steps {
+  border-top: 1px solid $light-grey;
+  border-bottom: 1px solid $light-grey;
+  padding: 1rem 0;
+}
+
+footer {
+  background: $dark-grey;
+  height: 3rem;
 }

@@ -527,8 +527,11 @@ a {
 .typeset .oldstyle-numerals {
   font-feature-settings: 'onum', 'kern'; }
 
-body {
-  margin: 2em 0; }
+header {
+  background: #232732;
+  padding: 2rem 2rem 0 2rem; }
+  header img {
+    max-width: 200px; }
 
 section {
   margin: 0 auto;
@@ -536,6 +539,18 @@ section {
   @media screen and (min-width: 50em) {
     section {
       max-width: 70%; } }
+
+div.banner-wrap {
+  background: #232732;
+  padding: 2rem 0;
+  color: #ffffff;
+  margin-bottom: 2rem; }
+
+span.client {
+  font-family: Courier;
+  background: #EEEEEE;
+  font-weight: 700;
+  padding: 4px; }
 
 @media screen and (min-width: 50em) {
   section.banner .container {
@@ -548,9 +563,10 @@ section.banner .container .content {
   section.banner .container .content img {
     max-width: 100%; }
   section.banner .container .content p {
-    font-size: 1.8rem;
+    font-size: 2rem;
     line-height: 3rem;
-    margin-bottom: 1rem; }
+    margin-bottom: 1rem;
+    font-weight: light; }
 @media screen and (min-width: 50em) {
   section.banner .container .barcode {
     width: 265px; } }
@@ -558,5 +574,14 @@ section.banner .container .barcode img {
   display: block;
   margin: 0 auto;
   outline: 1px solid #DDDDDD; }
+
+.c-lightning-steps {
+  border-top: 1px solid #AAAAAA;
+  border-bottom: 1px solid #AAAAAA;
+  padding: 1rem 0; }
+
+footer {
+  background: #232732;
+  height: 3rem; }
 
 /*# sourceMappingURL=site.css.map */

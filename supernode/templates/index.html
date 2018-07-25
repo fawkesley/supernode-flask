@@ -17,27 +17,54 @@
   </head>
   <body>
 
-    <section class="typeset banner">
-      <div class="container">
-        <div class="content">
-          <img src="{{ url_for('static', filename = 'images/supernode.svg') }}" />
-          <p>supernode.li is a low-fee, high uptime lightning node with channels to popular merchants.</p>
+    <header class="typeset">
+      <img src="/static/images/supernode-inverse.svg" />
+    </header>
+
+    <div class="banner-wrap">
+      <section class="typeset banner">
+        <div class="container">
+          <div class="content">
+            <p>We are supernode.li, welcome to the lightning network! 👋</p>
+
+            <p>We’re a low-fee, high uptime lightning node with channels to popular merchants.</p>
+          </div>
+          <div class="barcode">
+            <img src="https://1ml.com/node/02b7aeeb7df1ca12c174a16b3a109c06a04c10f1b19290eb9a137b6cade7efc4a6/qrcode" />
+          </div>
         </div>
-        <div class="barcode">
-          <img src="https://1ml.com/node/02b7aeeb7df1ca12c174a16b3a109c06a04c10f1b19290eb9a137b6cade7efc4a6/qrcode" />
-        </div>
-      </div>
-    </section>
+      </section>
+    </div>
 
     <section class="typeset">
-      <h2>Open a channel to supernode.li</h2>
+      <h2>If you’re just getting started, why not open a channel back to us?</h2>
 
-      <p>For <strong>lnd</strong> users:</p>
-      <pre>lncli connect 02b7aeeb7df1ca12c174a16b3a109c06a04c10f1b19290eb9a137b6cade7efc4a6@supernode.li:9735</pre>
+      <p>The Lightning Network will be stronger when more channels are open between nodes.</p>
 
-      <p>For <strong>c-lightning</strong> users:</p>
-      <pre>lightning-cli connect 02b7aeeb7df1ca12c174a16b3a109c06a04c10f1b19290eb9a137b6cade7efc4a6 supernode.li 9735</pre>
+      <p>If you’d like to try opening a channel, we’d love it if you opened one back to us ❤️</p>
+
+      <div class="lnd-steps">
+        <p>If you're using <span class="client">lnd</span> then connect like this:</p>
+        <pre>lncli connect 02b7aeeb7df1ca12c174a16b3a109c06a04c10f1b19290eb9a137b6cade7efc4a6@supernode.li:9735</pre>
+        <p>Then open the channel like this:</p>
+        <pre>lncli openchannel 02b7aeeb7df1ca12c174a16b3a109c06a04c10f1b19290eb9a137b6cade7efc4a6 --local_amt 200000</pre>
+      </div>
+
+      <div class="c-lightning-steps">
+        <p>If you're using <span class="client">c-lightning</span> it’s a bit different, connect like this:</p>
+        <pre>lightning-cli connect 02b7aeeb7df1ca12c174a16b3a109c06a04c10f1b19290eb9a137b6cade7efc4a6 supernode.li 9735</pre>
+        <p>Then...</p>
+        <pre>lightning-cli fundchannel 02b7aeeb7df1ca12c174a16b3a109c06a04c10f1b19290eb9a137b6cade7efc4a6 200000
+      </pre>
+
+      <p>The channel will take a little while to open, be patient. You can monitor how it’s going at <a href="https://1ml.com/node/02b7aeeb7df1ca12c174a16b3a109c06a04c10f1b19290eb9a137b6cade7efc4a6">1ml</a>.</p>
+
+      <p>If you've any questions, you can email us at <a href="mailto:hello@supernode.li">hello@supernode.li</a> and we’ll respond as quickly as we can.</p>
+
     </section>
+
+    <footer>
+    </footer>
 
     {% include "analytics.html" %}
   </body>
