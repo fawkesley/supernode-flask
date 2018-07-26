@@ -1,3 +1,4 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:700);
 * {
   box-sizing: border-box; }
 
@@ -527,6 +528,60 @@ a {
 .typeset .oldstyle-numerals {
   font-feature-settings: 'onum', 'kern'; }
 
+.box {
+  position: relative;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); }
+
+/* common */
+.ribbon {
+  width: 125px;
+  height: 125px;
+  overflow: hidden;
+  position: absolute; }
+
+.ribbon::before,
+.ribbon::after {
+  position: absolute;
+  z-index: -1;
+  content: '';
+  display: block;
+  border: 5px solid #2980b9; }
+
+.ribbon span {
+  position: absolute;
+  display: block;
+  width: 180px;
+  padding: 15px 0;
+  background-color: #3498db;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  color: #fff;
+  font: 700 18px/1 'Lato', sans-serif;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  text-transform: uppercase;
+  text-align: center; }
+
+.ribbon-top-right {
+  top: -10px;
+  right: -10px; }
+
+.ribbon-top-right::before,
+.ribbon-top-right::after {
+  border-top-color: transparent;
+  border-right-color: transparent; }
+
+.ribbon-top-right::before {
+  top: 0;
+  left: 0; }
+
+.ribbon-top-right::after {
+  bottom: 0;
+  right: 0; }
+
+.ribbon-top-right span {
+  left: -12px;
+  top: 20px;
+  transform: rotate(45deg); }
+
 header {
   background: #232732;
   padding: 2rem 2rem 0 2rem; }
@@ -573,15 +628,123 @@ section.banner .container .content {
 section.banner .container .barcode img {
   display: block;
   margin: 0 auto;
-  outline: 1px solid #DDDDDD; }
+  outline: 1px solid #AAAAAA; }
 
 .c-lightning-steps {
   border-top: 1px solid #AAAAAA;
   border-bottom: 1px solid #AAAAAA;
   padding: 1rem 0; }
 
+section.snapshot {
+  padding-bottom: 1rem; }
+
+section.snapshot-download div.product {
+  max-width: 100%;
+  -webkit-border-radius: 1rem;
+  -moz-border-radius: 1rem;
+  -ms-border-radius: 1rem;
+  border-radius: 1rem;
+  background: #ffffff;
+  border: 1px solid #cacaca;
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem; }
+  @media screen and (min-width: 64em) {
+    section.snapshot-download div.product {
+      max-width: 75%; } }
+  section.snapshot-download div.product h2 {
+    max-width: 85%; }
+  section.snapshot-download div.product p.file {
+    font-size: 1.2rem;
+    width: 100%;
+    display: block;
+    text-align: center;
+    width: 100%;
+    font-family: courier;
+    background: #EEEEEE;
+    padding: 0.5em; }
+    section.snapshot-download div.product p.file i {
+      color: #AAAAAA; }
+    section.snapshot-download div.product p.file span.size {
+      padding-left: 1rem; }
+  section.snapshot-download div.product p.price {
+    color: green;
+    font-size: 2rem; }
+  section.snapshot-download div.product form.paypal {
+    text-align: center; }
+  section.snapshot-download div.product hr {
+    padding: 0.5rem 0;
+    margin-bottom: 1rem; }
+  section.snapshot-download div.product p.or {
+    display: block;
+    text-align: center; }
+  section.snapshot-download div.product div.bitcoin-payment {
+    display: flex;
+    align-items: stretch;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    border-radius: 4px;
+    border: 1px solid #d29b17;
+    background: #fffde2;
+    margin-bottom: 1rem; }
+    section.snapshot-download div.product div.bitcoin-payment div.address {
+      font-family: courier;
+      color: #3a2b08;
+      border-right: 1px solid #d29b17;
+      padding: 0.5em;
+      word-wrap: break-word;
+      display: inline-block;
+      width: 80%;
+      font-size: 1rem; }
+      @media screen and (min-width: 50em) {
+        section.snapshot-download div.product div.bitcoin-payment div.address {
+          width: 82%; } }
+    section.snapshot-download div.product div.bitcoin-payment a {
+      -webkit-border-top-right-radius: 4px;
+      -moz-border-top-right-radius: 4px;
+      -ms-border-top-right-radius: 4px;
+      border-top-right-radius: 4px;
+      -webkit-border-bottom-right-radius: 4px;
+      -moz-border-bottom-right-radius: 4px;
+      -ms-border-bottom-right-radius: 4px;
+      border-bottom-right-radius: 4px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto;
+      padding: 0 0.5rem;
+      text-decoration: none;
+      color: #c3730e;
+      background: #ffc43a;
+      text-align: center;
+      width: 20%; }
+      @media screen and (min-width: 50em) {
+        section.snapshot-download div.product div.bitcoin-payment a {
+          width: 18%; } }
+      section.snapshot-download div.product div.bitcoin-payment a i {
+        font-size: 3rem; }
+        @media screen and (min-width: 50em) {
+          section.snapshot-download div.product div.bitcoin-payment a i {
+            font-size: 2rem; } }
+      section.snapshot-download div.product div.bitcoin-payment a i.fa-arrow-right {
+        display: none; }
+        @media screen and (min-width: 50em) {
+          section.snapshot-download div.product div.bitcoin-payment a i.fa-arrow-right {
+            padding-left: 5px;
+            display: inline-block; } }
+
+.typeset i {
+  font-style: normal; }
+
 footer {
   background: #232732;
-  height: 3rem; }
+  margin-top: 6rem;
+  padding: 2rem 0;
+  color: #ffffff; }
+  footer .typeset p a {
+    color: #ffffff;
+    text-decoration: underline;
+    background-image: none;
+    text-shadow: none; }
 
 /*# sourceMappingURL=site.css.map */
