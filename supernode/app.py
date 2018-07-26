@@ -12,5 +12,9 @@ def index():
 def snapshot():
     return render_template('snapshot.html')
 
+@app.route('/thanks/')
+def thanks():
+    return render_template('thanks.html')
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
