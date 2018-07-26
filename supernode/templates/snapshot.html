@@ -5,7 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Skip waiting for your Lightning Node to sync!</title>
-    <meta name="description" content="supernode.li is a low-fee, high uptime lightning node with channels to popular merchants.">
+    <meta name="description" content="Download an up to date snapshot of the bitcoin network for btcd and be up and running in no time!">
     <link href="{{ url_for('static', filename = 'stylesheets/site.css') }}" rel="stylesheet" />
     <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename = 'favicons/apple-touch-icon.png') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename = 'favicons/favicon-32x32.png') }}">
@@ -15,6 +15,12 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
+    <script>
+      function toggleQRCode(id) {
+        var element = document.getElementById(id);
+        element.classList.toggle("hidden");
+      }
+    </script>
   </head>
   <body>
 
@@ -48,15 +54,35 @@
         </form>
 
 
-        <p class="or"><span>or pay with Bitcoin</span></p>
+        <p class="or"><span>or pay with Bitcoin (0.0024 BTC)</span></p>
 
         <div class="bitcoin-payment">
-          <div class="address">bc1qhjwh2e8952c84422yvh65as4lzzj5zj05p5d0t</div>
-          <a href="bitcoin:bc1qhjwh2e8952c84422yvh65as4lzzj5zj05p5d0t">
-            <i class="fab fa-bitcoin"></i><i class="fas fa-arrow-right"></i>
+          <div class="address">1Gmq6sv1bcKXF5BgzmxtSqJkBtexq1VhUG</div>
+          <a onclick="toggleQRCode('wallet-payment-qrcode')" class="qrcode-link">
+            <i class="fas fa-qrcode"></i>
+          </a>
+          <a href="bitcoin://1Gmq6sv1bcKXF5BgzmxtSqJkBtexq1VhUG?amount=0.00242758" class="bitcoin-link">
+            <i class="fab fa-bitcoin"></i>
           </a>
         </div>
 
+        <div class="qrcode hidden" id="wallet-payment-qrcode">
+          <img src="https://chart.googleapis.com/chart?chs=250x250&amp;cht=qr&amp;chl=%20bitcoin://1Gmq6sv1bcKXF5BgzmxtSqJkBtexq1VhUG?amount=0.00242758">
+        </div>
+
+        <div class="bitcoin-payment">
+          <div class="address">bc1qhjwh2e8952c84422yvh65as4lzzj5zj05p5d0t</div>
+          <a onclick="toggleQRCode('segwit-payment-qrcode')" class="qrcode-link">
+            <i class="fas fa-qrcode"></i>
+          </a>
+          <a href="bitcoin:bc1qhjwh2e8952c84422yvh65as4lzzj5zj05p5d0t?amount=0.00242758" class="bitcoin-link">
+            <i class="fab fa-bitcoin"></i>
+          </a>
+        </div>
+
+        <div class="qrcode hidden" id="segwit-payment-qrcode">
+          <img src="https://chart.googleapis.com/chart?chs=250x250&amp;cht=qr&amp;chl=%20bitcoin://bc1qhjwh2e8952c84422yvh65as4lzzj5zj05p5d0t?amount=0.00242758">
+        </div>
 
       </div>
     </section>
