@@ -151,7 +151,7 @@ section.snapshot-download {
       @include border-radius(4px);
       border: 1px solid #d29b17;
       background: #fffde2;
-      margin-bottom: 1rem;
+      margin-top: 1rem;
       div.address {
         font-family: courier;
         color: #3a2b08;
@@ -159,14 +159,37 @@ section.snapshot-download {
         padding: 0.5em;
         word-wrap:break-word;
         display:inline-block;
-        width: 80%;
-        font-size: 1rem;
-        @include breakpoint(break-2) {
-          width: 82%;
+        width: 85%;
+        @include breakpoint(break-1) {
+          width: 70%;
+        }
+        font-size: 0.9rem;
+      }
+      a.qrcode-link {
+        display: none;
+        @include breakpoint(break-1) {
+          display: flex
+        }
+        width: 15%;
+        border-right: 1px solid #d29b17;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+        padding: 0 0.5rem;
+        text-decoration: none;
+        color: #c3730e;
+        background: #ffc43a;
+        text-align: center;
+        i {
+          font-size: 3rem;
+          @include breakpoint(break-2) {
+            font-size: 2rem;
+          }
         }
       }
-      a {
+      a.bitcoin-link {
         @include border-right-radius(4px);
+        width: 15%;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -176,25 +199,33 @@ section.snapshot-download {
         color: #c3730e;
         background: #ffc43a;
         text-align: center;
-        width: 20%;
-        @include breakpoint(break-2) {
-          width: 18%;
-        }
         i {
           font-size: 3rem;
           @include breakpoint(break-2) {
             font-size: 2rem;
           }
         }
-        i.fa-arrow-right {
-          display: none;
-          @include breakpoint(break-2) {
-            padding-left: 5px;
-            display: inline-block;
-          }
-        }
       }
     }
+
+    .qrcode {
+      height: 300px;
+      text-align: center;
+      border-right: 1px solid $light-grey;
+      border-bottom: 1px solid $light-grey;
+      border-left: 1px solid $light-grey;
+      img {
+        border: 1px solid $light-grey;
+        margin: 1rem;
+      }
+
+      &.hidden {
+        height: 0;
+        border: 0;
+        overflow: hidden;
+      }
+    }
+
   }
 }
 
