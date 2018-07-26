@@ -8,7 +8,7 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route('/snapshot')
+@app.route('/save-time-syncing-by-downloading-blockchain/')
 def snapshot():
     return render_template('snapshot.html')
 
