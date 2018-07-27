@@ -10,7 +10,13 @@ def index():
 
 @app.route('/save-time-syncing-by-downloading-blockchain/')
 def snapshot():
-    return render_template('snapshot.html')
+    import datetime
+    now = datetime.datetime.now()
+    return render_template(
+      'snapshot.html',
+      generated_date=now.strftime('%d %B %Y'),
+      file_date=now.strftime('%d-%m-%Y')
+    )
 
 @app.route('/thanks/')
 def thanks():
