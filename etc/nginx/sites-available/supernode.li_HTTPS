@@ -81,6 +81,8 @@ server {
     location = /.well-known/assetlinks.json              { return 404; access_log off; log_not_found off; }
     location = /.well-known/dnt-policy.txt               { return 404; access_log off; log_not_found off; }
 
+    rewrite ^/pgp-key.asc$ /static/pgp-key.asc redirect;
+
     # rewrite ^/something/?$ http://example.com redirect;
     # rewrite ^/wp-content/uploads/2012/02/picocolour_tn.jpg$ /img/picocolour-thumbnail.jpg permanent;
 }
