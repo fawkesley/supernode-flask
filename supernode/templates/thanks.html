@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
     <title>Skip waiting for your Lightning Node to sync!</title>
     <meta name="description" content="supernode.li is a low-fee, high uptime lightning node with channels to popular merchants.">
     <link href="{{ url_for('static', filename = 'stylesheets/site.css') }}" rel="stylesheet" />
@@ -22,17 +23,67 @@
       <h1>Thank you, here's how to download the blockchain</h1>
     </section>
 
-    <section class="typeset">
-      <p>The blockchain is very large, 200GB+ and increasing every 10 minutes. Therefore, we're hosting the file via SFTP on our server.</p>
+    <section class="typeset snapshot-download">
+      <div class="product box">
+        <p>The blockchain is very large, 200GB+ and increasing every 10 minutes. Therefore, we're hosting the file via FTP on our server.</p>
 
-      <p>We've created an account for you with the following details:</p>
+        <p>We've created an account for you with the following details:</p>
 
-      <pre>sftp://supernode.li:4333
+        <pre>ftp://supernode.li:4333
 username: user132
 password: house.castle.bloom</pre>
-      
+      </div>
+    </section>
+
+    <section class="typeset">
       <p>To access this from the command line you can do the following:</p>
-      <pre>sftp user132@supernode.li</pre>
+      <pre>ftp user132@supernode.li</pre>
+
+      <p>Or you might want to use an FTP client like <a href="https://filezilla-project.org/">FileZilla</a>.
+
+      <h2>How to use the files</h2>
+
+      <h4>1. Stop btcd</h4>
+
+      <p>Make sure <code>btcd</code> is not running as we’re going to overwrite its files</p>
+
+      <h4>2. Move the files</h4>
+
+      <p>Download all the files from our FTP server to your btcd data directory (the default is <code>~/.btcd/data</code> — check your <code>~/.btcd/btcd.conf</code> file for the <strong>datadir</strong> setting).</p>
+
+      <h4>3. Verify it’s not corrupt</h4>
+
+      <p>Verify the checksums of all files to ensure they haven’t been corrupted or tampered by running</p>
+
+      <pre>sha256sum --check sha256sums.txt && echo SUCCESS || echo FAIL</pre>
+
+      <p>It will show lots of output and you should see the word SUCCESS.</p>
+
+      <p>If it fails, look for any lines with the word FAIL and re-download that file.</p>
+
+      <h4>4. Verify our signature</h4>
+
+      <p>First, import our public key:</p>
+
+      <pre>curl -L https://supernode.li/pgp-key.asc | gpg --import</pre>
+
+      <p>The following command verifies that the contents of the download haven’t been tampered with or become corrupt:</p>
+
+      <pre>gpg --trust-model always --verify sha256sums.txt.sig sha256sums.txt</pre>
+
+      <p>You should see output like:</p>
+
+<pre>gpg: Signature made Thu 26 Jul 2018 13:29:11 BST
+gpg:        using RSA key F03C04B2FFD3995A41A7A3AB860E9749926E2DDD
+gpg: Good signature from "supernode.li operators <hello@supernode.li>" [unknown]
+gpg: WARNING: Using untrusted key!
+SUCCESS</pre>
+
+      <p>If it fails, something’s gone badly wrong and yes they should email us <a href="mailto:hello@supernode.li">hello@supernode.li</a>.
+
+      <h4>5. Restart btcd</h4>
+
+      <p>Re-start your <code>btcd</code> daemon. If all goes well, you should find it continues syncing to bring you bang up to date with the blockchain 🎉</p>
 
     </section>
 
