@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Turn a Raspberry PI into a bitcoin and lightning network full node</title>
+    <meta name="description" content="How to get started with a home bitcoin and lightning node">
+    <link href="{{ url_for('static', filename = 'stylesheets/site.css') }}" rel="stylesheet" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename = 'favicons/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename = 'favicons/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename = 'favicons/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename = 'favicons/site.webmanifest') }}">
+    <link rel="mask-icon" href="{{ url_for('static', filename = 'favicons/safari-pinned-tab.svg') }}" color="#5bbad5">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+  </head>
+  <body>
+
+    <section class="typeset snapshot">
+      <h1>Turn a Raspberry PI into a bitcoin and lightning network full node</h1>
+      
+      <p>I started with a Raspberry Pi with Rapsbian installed and a 2TB external drive. I want to make sure I’d have plenty of space for the blockchain.</p>
+
+      <h2>Download a snapshot of the blockchain</h2>
+      <p>You can save days of syncing by downloading <a href="https://supernode.li/save-time-syncing-by-downloading-blockchain/">a snapshot of the blockchain</a>.</p>
+
+      <p>While that’s downloading, go about installing <code>btcd</code></p>
+
+      <h2>Install btcd</h2>
+      <p>First up, you’ll want to install Go as this is what <code>btcd</code> is written in.</p>
+
+<pre>
+wget https://storage.googleapis.com/golang/go1.10.1.linux-armv6l.tar.gz
+sudo tar -C /usr/local -xvf go1.10.1.linux-armv6l.tar.gz
+export PATH=$PATH:/usr/local/go/bin # put into ~/.profile
+</pre>
+
+      <p>If you've already installed an old version of golang with apt-get, you can remove it like this:</p>
+
+<pre>
+sudo apt remove golang
+sudo apt-get autoremove
+source .profile
+</pre>
+
+      <p>You can test what’s happening with <code>go version</code> you should see it report back <code>go version go1.10.1 linux/arm</code>.</p>
+
+      <p>Next it’s time to install <code>btcd</code>, but to do that you’ll need <code>git</code> and <code>glide</code>:</p>
+
+<pre>
+sudo apt-get install git [enter your password when promoted]
+go get -u -v github.com/Masterminds/glide
+</pre>
+
+      <p>Once you’ve installed them, you can go about getting the daemon:</p>
+
+<pre>
+go get -u github.com/btcsuite/btcutil
+cd $GOPATH/src/github.com/btcutil/btcd
+glide install
+go install . ./cmd/...
+</pre>
+
+      <h2>Install lnd</h2>
+      <p>Now you’ll want to install the <code>lnd</code> deamon:</code></p>
+
+<pre>
+cd $GOPATH
+git clone https://github.com/lightningnetwork/lnd $GOPATH/src/github.com/lightningnetwork/lnd
+cd $GOPATH/src/github.com/lightningnetwork/lnd
+make && make install
+</pre> 
+
+      <p>You can test that it’s all worked by running <code>make check</code>.</p>
+
+    </section>
+
+    <footer>
+      <section class="typeset">
+        <p>Powered by <a href="https://supernode.li">supernode.li</a></p>
+      </section>
+    </footer>
+
+    {% include "analytics.html" %}
+  </body>
+</html>
