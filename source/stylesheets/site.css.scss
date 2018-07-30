@@ -255,3 +255,7 @@ footer {
     }
   }
 }
+
+pre {
+  @include fontsize(13, 1)
+}
