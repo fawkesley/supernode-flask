@@ -774,4 +774,28 @@ footer {
     color: #ffffff;
     background: #232732; }
 
+pre {
+  font-size: 0.9285714286rem; }
+
+.container-pi-header {
+  margin-top: 2rem; }
+  @media screen and (min-width: 50em) {
+    .container-pi-header {
+      display: flex;
+      align-items: flex-end; } }
+  .container-pi-header .header {
+    margin-right: 1rem; }
+    @media screen and (min-width: 50em) {
+      .container-pi-header .header {
+        width: 70%; } }
+  .container-pi-header .image {
+    width: 50%;
+    margin-top: 1rem; }
+    @media screen and (min-width: 50em) {
+      .container-pi-header .image {
+        margin-top: 0rem;
+        width: 30%; } }
+    .container-pi-header .image img {
+      width: 100%; }
+
 /*# sourceMappingURL=site.css.map */

@@ -16,5 +16,9 @@ def snapshot():
 def thanks():
     return render_template('thanks.html')
 
+@app.route('/turn-a-pi-into-a-bitcoin-and-lightning-network-full-node/')
+def pi():
+    return render_template('pi.html')
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
