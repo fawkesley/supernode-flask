@@ -1,5 +1,6 @@
 .PHONY: run_dev
 run_dev:
+	export FLASK_DEBUG=1
 	pipenv sync --dev && \
 	pipenv run ./supernode/app.py
 
