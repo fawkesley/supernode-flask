@@ -2,3 +2,4 @@
 .DS_Store
 supernode/static/stylesheets/site.css.map
 supernode/app.db
+lnd_auth/*
