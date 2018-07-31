@@ -1,8 +1,7 @@
 .PHONY: run_dev
 run_dev:
-	export FLASK_DEBUG=1
 	pipenv sync --dev && \
-	pipenv run ./supernode/app.py
+	FLASK_ENV=development FLASK_APP=./supernode/app.py pipenv run python -m flask run
 
 .PHONY: run_production
 run_production:
