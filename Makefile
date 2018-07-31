@@ -18,3 +18,7 @@ download_config:
 migrate:
 	cd supernode; \
 	pipenv run flask db upgrade
+
+.PHONY: tunnel
+tunnel:
+	ssh -L 10009:localhost:10009 supernode.li
