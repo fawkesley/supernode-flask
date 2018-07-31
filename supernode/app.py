@@ -1,11 +1,22 @@
 #!/usr/bin/env python
 
-import uuid
-
 from flask import Flask, render_template, request
 from flask_json import FlaskJSON, as_json, JsonError
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+
+from lndgrpc import LNDClient
+
+from os.path import join as pjoin, dirname
+
+AUTH_DIR = pjoin(dirname(__file__), '..', 'lnd_auth')
+
+lnd = LNDClient("127.0.0.1:10009",
+                macaroon_filepath=pjoin(AUTH_DIR, 'admin.macaroon'),
+                cert_filepath=pjoin(AUTH_DIR, 'tls.cert'))
+
+lnd.get_info()
+
 
 PRODUCTS = {
     'web-haiku': 125000,
@@ -40,7 +51,9 @@ def make_invoice():
     except KeyError:
         raise JsonError(status=400, message='Specify valid `product` in JSON')
 
-    payment_request = 'FAKE_{}'.format(str(uuid.uuid4()))
+    add_invoice_response = lnd.add_invoice(satoshis)
+    payment_request = add_invoice_response.payment_request
+
     invoice = Invoice(payment_request=payment_request, paid=False)
     db.session.add(invoice)
     db.session.commit()
