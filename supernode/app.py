@@ -115,5 +115,9 @@ def thanks():
 def pi():
     return render_template('pi.html')
 
+@app.route('/haiku/')
+def haiku():
+    return render_template('haiku.html')
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
