@@ -1,11 +1,15 @@
 #!/usr/bin/env python
 
 from flask import Flask, render_template
+from flask_json import FlaskJSON, as_json, JsonError
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+app.config['JSON_ADD_STATUS'] = False
+
+json = FlaskJSON(app)
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
