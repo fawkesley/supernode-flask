@@ -8,6 +8,8 @@ name = "pypi"
 [packages]
 flask = "*"
 gunicorn = "*"
+flask-sqlalchemy = "*"
+flask-migrate = "*"
 
 [requires]
 python_version = "3.6"
