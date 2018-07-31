@@ -1,9 +1,15 @@
 #!/usr/bin/env python
 
-from flask import Flask, render_template
+import uuid
+
+from flask import Flask, render_template, request
 from flask_json import FlaskJSON, as_json, JsonError
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+
+PRODUCTS = {
+    'web-haiku': 125000,
+}
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
@@ -23,6 +29,27 @@ class Invoice(db.Model):
 @app.route("/")
 def index():
     return render_template('index.html')
+
+
+@app.route("/apiv1/shop/make-invoice", methods=['POST'])
+@as_json
+def make_invoice():
+    try:
+        product_slug = request.get_json()['product']
+        satoshis = PRODUCTS[product_slug]
+    except KeyError:
+        raise JsonError(status=400, message='Specify valid `product` in JSON')
+
+    payment_request = 'FAKE_{}'.format(str(uuid.uuid4()))
+    invoice = Invoice(payment_request=payment_request, paid=False)
+    db.session.add(invoice)
+    db.session.commit()
+
+    return {
+        'payment_request': payment_request,
+        'satoshis': satoshis
+    }
+
 
 @app.route('/save-time-syncing-by-downloading-blockchain/')
 def snapshot():
