@@ -14,3 +14,8 @@ run_production:
 download_config:
 	scp supernode.li:/etc/nginx/sites-available/*supernode* etc/nginx/sites-available/
 	scp supernode.li:/etc/supervisor/conf.d/*supernode* etc/supervisor/conf.d/
+
+.PHONY: migrate
+migrate:
+	cd supernode; \
+	pipenv run flask db upgrade
