@@ -23,7 +23,7 @@ PRODUCTS = {
 }
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../database.sqlite3'
 app.config['JSON_ADD_STATUS'] = False
 
 json = FlaskJSON(app)
