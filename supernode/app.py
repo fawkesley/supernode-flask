@@ -3,7 +3,7 @@
 import os
 import uuid
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from flask_json import FlaskJSON, as_json, JsonError
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -51,6 +51,21 @@ def make_lnd_client():
                          cert_filepath=pjoin(AUTH_DIR, 'tls.cert'))
 
 
+def make_payment_request(satoshis):
+    """
+    Make an invoice in `lnd` and a matching invoice in our database, returning
+    the `payment_request`
+    """
+    add_invoice_response = lnd.add_invoice(satoshis)
+    payment_request = add_invoice_response.payment_request
+
+    invoice = Invoice(payment_request=payment_request, paid=False)
+    db.session.add(invoice)
+    db.session.commit()
+
+    return payment_request
+
+
 lnd = make_lnd_client()
 
 
@@ -71,17 +86,10 @@ def make_invoice():
         product_slug = request.get_json()['product']
         satoshis = PRODUCTS[product_slug]
     except KeyError:
-        raise JsonError(status=400, message='Specify valid `product` in JSON')
-
-    add_invoice_response = lnd.add_invoice(satoshis)
-    payment_request = add_invoice_response.payment_request
-
-    invoice = Invoice(payment_request=payment_request, paid=False)
-    db.session.add(invoice)
-    db.session.commit()
+        raise JsonError(status_=400, message='Specify valid `product` in JSON')
 
     return {
-        'payment_request': payment_request,
+        'payment_request': make_payment_request(satoshis),
         'satoshis': satoshis
     }
 
@@ -93,14 +101,44 @@ def check_invoice_paid(payment_request):
 
     if invoice is None:
         raise JsonError(
-            status=400,
-            message='Specify valid `payment_request` in JSON'
+            status_=404,
+            message="No such invoice with that `payment_request`: '{}'".format(
+                payment_request
+                )
         )
 
     return {
         'payment_request': invoice.payment_request,
         'paid': invoice.paid,
     }
+
+
+@app.route("/shop/<product_slug>/", methods=['GET'])
+def redirect_to_payment_request(product_slug):
+    satoshis = PRODUCTS[product_slug]
+    payment_request = make_payment_request(satoshis)
+
+    return redirect(
+        url_for(
+            'product_payment_request',
+            product=product_slug,
+            payment_request=payment_request
+        )
+    )
+
+
+@app.route("/invoice/<product_slug>/<payment_request>/", methods=['GET'])
+def product_payment_request(product_slug, payment_request):
+    return render_template(
+        'invoice.html',
+        product_slug=product_slug,
+        payment_request=payment_request
+    )
+
+
+@app.route("/shop/deliver/<product_slug>/<payment_request>/", methods=['GET'])
+def deliver_product(product_slug, payment_request):
+    return 'Have a Haiku!'
 
 
 @app.route('/save-time-syncing-by-downloading-blockchain/')
