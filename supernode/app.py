@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import datetime
 import os
 import uuid
 
@@ -152,6 +153,95 @@ def thanks():
 @app.route('/turn-a-pi-into-a-bitcoin-and-lightning-network-full-node/')
 def pi():
     return render_template('pi.html')
+
+
+class InvoiceSyncer():
+    def __init__(self, lnd, echo=None):
+        self.lnd = lnd
+        self.echo = echo or self._echo
+
+        self._remote_cache = {}  # payment_request -> remote_invoice
+        self._delete_local = set()
+
+    def sync(self):
+        self.cache_valid_remote_invoices()
+        self.sync_remote_invoices_to_local()
+
+        self.delete_invalid_local_invoices()
+        # self.delete_invalid_remote_invoices()
+
+    def _echo(self, message):
+        print(message)
+
+    def cache_valid_remote_invoices(self):
+        for remote_invoice in lnd.list_invoices().invoices:
+            if not self.has_expired(remote_invoice):
+                self._remote_cache[
+                    remote_invoice.payment_request
+                ] = remote_invoice
+
+            # ignore expired remote invoices
+        self.echo('Cached {} remote invoices'.format(len(self._remote_cache)))
+
+    def sync_remote_invoices_to_local(self):
+        dirty = False
+
+        for local_invoice in Invoice.query.all():
+            try:
+                remote_invoice = self._remote_cache[
+                    local_invoice.payment_request
+                ]
+            except KeyError:
+                self.echo('Local invoice has no valid remote `{}`'.format(
+                    local_invoice.payment_request)
+                )
+
+                self._delete_local.add(local_invoice)
+            else:
+                if local_invoice.paid != remote_invoice.settled:
+                    self.echo('Syncing invoice `{}`'.format(
+                        local_invoice.payment_request)
+                    )
+                    local_invoice.paid = remote_invoice.settled
+                    dirty = True
+
+        if dirty:
+            self.echo('Saving changes to database')
+            db.session.commit()
+
+    @staticmethod
+    def has_expired(remote_invoice, now=None):
+        now = now or datetime.datetime.now()
+        expires = datetime.datetime.fromtimestamp(
+            remote_invoice.creation_date + remote_invoice.expiry
+        )
+        return now > expires
+
+    def delete_invalid_local_invoices(self):
+        if not self._delete_local:
+            return
+
+        self.echo('Deleting {} local invoices'.format(
+            len(self._delete_local))
+        )
+        for invoice in self._delete_local:
+            db.session.delete(invoice)
+        db.session.commit()
+
+
+@app.cli.command()
+def watch_invoices():
+    """Checks `lnd` whether invoices have been paid"""
+    import click
+    import time
+
+    click.echo('Connecting to `lnd` and watching invoices')
+
+    while True:
+        syncer = InvoiceSyncer(lnd, echo=click.echo)
+        syncer.sync()
+        time.sleep(10)
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
