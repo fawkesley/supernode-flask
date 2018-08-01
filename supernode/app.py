@@ -158,7 +158,14 @@ def deliver_product(product_slug, payment_request):
     if product_slug == 'web-haiku':
         haiku = get_haiku_for_payment_request(payment_request)
 
-    return 'Have a Haiku! {}'.format(haiku.haiku)
+    line_1, line_2, line_3 = haiku.haiku.split('\n')
+
+    return render_template(
+        'web_haiku.html',
+        haiku_line_1=line_1,
+        haiku_line_2=line_2,
+        haiku_line_3=line_3,
+    )
 
 
 def get_haiku_for_payment_request(payment_request):
