@@ -122,7 +122,7 @@ def redirect_to_payment_request(product_slug):
     return redirect(
         url_for(
             'product_payment_request',
-            product=product_slug,
+            product_slug=product_slug,
             payment_request=payment_request
         )
     )
