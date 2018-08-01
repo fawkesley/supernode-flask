@@ -16,7 +16,7 @@ from os.path import join as pjoin, dirname
 AUTH_DIR = pjoin(dirname(__file__), '..', 'lnd_auth')
 
 PRODUCTS = {
-    'web-haiku': 150000,
+    'web-haiku': 12500,
 }
 
 app = Flask(__name__)
