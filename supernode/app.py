@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 import uuid
 
 from flask import Flask, render_template, request
@@ -7,18 +8,50 @@ from flask_json import FlaskJSON, as_json, JsonError
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
+from lndgrpc import LNDClient
+
+from os.path import join as pjoin, dirname
+
+AUTH_DIR = pjoin(dirname(__file__), '..', 'lnd_auth')
+
 PRODUCTS = {
     'web-haiku': 125000,
 }
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../database.sqlite3'
 app.config['JSON_ADD_STATUS'] = False
+app.config['FAKE_INVOICES'] = os.environ.get('FAKE_INVOICES', '0') == '1'
 
 json = FlaskJSON(app)
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+
+
+class FakeLNDClient():
+    def __init__(self, *args, **kwargs):
+        pass
+
+    def add_invoice(self, amount):
+        class FakeAddInvoiceResponse():
+            def __init__(self, satoshis):
+                self.satoshis = satoshis
+                self.payment_request = 'FAKE_{}'.format(str(uuid.uuid4()))
+
+        return FakeAddInvoiceResponse(amount)
+
+
+def make_lnd_client():
+    if app.config['FAKE_INVOICES']:
+        return FakeLNDClient()
+    else:
+        return LNDClient("127.0.0.1:10009",
+                         macaroon_filepath=pjoin(AUTH_DIR, 'admin.macaroon'),
+                         cert_filepath=pjoin(AUTH_DIR, 'tls.cert'))
+
+
+lnd = make_lnd_client()
 
 
 class Invoice(db.Model):
@@ -40,7 +73,9 @@ def make_invoice():
     except KeyError:
         raise JsonError(status=400, message='Specify valid `product` in JSON')
 
-    payment_request = 'FAKE_{}'.format(str(uuid.uuid4()))
+    add_invoice_response = lnd.add_invoice(satoshis)
+    payment_request = add_invoice_response.payment_request
+
     invoice = Invoice(payment_request=payment_request, paid=False)
     db.session.add(invoice)
     db.session.commit()

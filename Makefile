@@ -1,7 +1,10 @@
 .PHONY: run_dev
 run_dev:
 	pipenv sync --dev && \
-	FLASK_ENV=development FLASK_APP=./supernode/app.py pipenv run python -m flask run
+	FAKE_INVOICES=1 \
+	FLASK_ENV=development \
+	FLASK_APP=./supernode/app.py \
+	pipenv run python -m flask run
 
 .PHONY: run_production
 run_production:
@@ -18,3 +21,7 @@ download_config:
 migrate:
 	cd supernode; \
 	pipenv run flask db upgrade
+
+.PHONY: tunnel
+tunnel:
+	ssh -L 10009:localhost:10009 supernode.li

@@ -1,4 +1,5 @@
 .sass-cache/
 .DS_Store
 supernode/static/stylesheets/site.css.map
-supernode/app.db
+database.sqlite3
+lnd_auth/*
