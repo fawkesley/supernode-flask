@@ -79,6 +79,9 @@ class Invoice(db.Model):
 def index():
     return render_template('index.html')
 
+@app.route("/buy-a-haiku")
+def haiku():
+    return render_template('haiku.html')
 
 @app.route("/apiv1/shop/make-invoice", methods=['POST'])
 @as_json
