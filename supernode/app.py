@@ -208,7 +208,8 @@ class InvoiceSyncer():
         self.cache_valid_remote_invoices()
         self.sync_remote_invoices_to_local()
 
-        self.delete_invalid_local_invoices()
+        # TODO: don't delete *paid* local invoices!!!
+        # self.delete_invalid_local_invoices()
         # self.delete_invalid_remote_invoices()
 
     def _echo(self, message):
