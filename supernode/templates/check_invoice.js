@@ -52,12 +52,11 @@ function checkInvoicePaid() {
 }
 
 function handleInvoiceExpired() {
-  console.error('Invoice expired. Stopping timer.');
+  console.error('Invoice expired, generating new payment request.');
   clearInterval(checkIntervalId);
-  // TODO
+  window.location.href = "{{ url_for('redirect_to_payment_request', product_slug=product_slug) }}";
 }
 
 function handleInvoicePaid() {
-  // TODO
   window.location.href = "{{ url_for('deliver_product', product_slug=product_slug, payment_request=payment_request) }}";
 }
