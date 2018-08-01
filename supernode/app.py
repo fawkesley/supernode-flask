@@ -75,6 +75,14 @@ class Invoice(db.Model):
     paid = db.Column(db.Boolean)
 
 
+class Haiku(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    haiku = db.Column(db.String(500))
+    sold_to_payment_request = db.Column(
+        db.String(500), index=True, nullable=True
+    )
+
+
 @app.route("/")
 def index():
     return render_template('index.html')
