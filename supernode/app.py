@@ -51,6 +51,21 @@ def make_lnd_client():
                          cert_filepath=pjoin(AUTH_DIR, 'tls.cert'))
 
 
+def make_payment_request(satoshis):
+    """
+    Make an invoice in `lnd` and a matching invoice in our database, returning
+    the `payment_request`
+    """
+    add_invoice_response = lnd.add_invoice(satoshis)
+    payment_request = add_invoice_response.payment_request
+
+    invoice = Invoice(payment_request=payment_request, paid=False)
+    db.session.add(invoice)
+    db.session.commit()
+
+    return payment_request
+
+
 lnd = make_lnd_client()
 
 
@@ -73,15 +88,8 @@ def make_invoice():
     except KeyError:
         raise JsonError(status=400, message='Specify valid `product` in JSON')
 
-    add_invoice_response = lnd.add_invoice(satoshis)
-    payment_request = add_invoice_response.payment_request
-
-    invoice = Invoice(payment_request=payment_request, paid=False)
-    db.session.add(invoice)
-    db.session.commit()
-
     return {
-        'payment_request': payment_request,
+        'payment_request': make_payment_request(satoshis),
         'satoshis': satoshis
     }
 
