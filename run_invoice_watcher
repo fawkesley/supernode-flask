@@ -1,0 +1,6 @@
+#!/bin/sh -eu
+
+cd supernode
+pipenv sync
+exec pipenv run flask watch_invoices
+
