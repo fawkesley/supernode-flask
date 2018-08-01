@@ -51,6 +51,23 @@ def make_invoice():
     }
 
 
+@app.route("/apiv1/shop/invoice/<payment_request>", methods=['GET'])
+@as_json
+def check_invoice_paid(payment_request):
+    invoice = Invoice.query.get(payment_request)
+
+    if invoice is None:
+        raise JsonError(
+            status=400,
+            message='Specify valid `payment_request` in JSON'
+        )
+
+    return {
+        'payment_request': invoice.payment_request,
+        'paid': invoice.paid,
+    }
+
+
 @app.route('/save-time-syncing-by-downloading-blockchain/')
 def snapshot():
     return render_template('snapshot.html')
