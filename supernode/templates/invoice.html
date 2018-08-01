@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Invoice for {{ amount }}</title>
+    <meta name="description" content="">
+    <link href="{{ url_for('static', filename = 'stylesheets/site.css') }}" rel="stylesheet" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename = 'favicons/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename = 'favicons/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename = 'favicons/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename = 'favicons/site.webmanifest') }}">
+    <link rel="mask-icon" href="{{ url_for('static', filename = 'favicons/safari-pinned-tab.svg') }}" color="#5bbad5">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <script>
+      var domReady = function(callback) {
+          document.readyState === "interactive" || document.readyState === "complete" ? callback() : document.addEventListener("DOMContentLoaded", callback);
+      };
+
+      function togglePaymentMode() {
+        var payment_interfaces = document.getElementsByClassName("payment-interface");
+        for(var i = 0; i < payment_interfaces.length; i++)
+        {
+          payment_interfaces[i].classList.toggle("hidden");
+        }
+        var tabs = document.getElementsByClassName("tab");
+        for(var i = 0; i < tabs.length; i++)
+        {
+          tabs[i].classList.toggle("selected");
+        }
+      }
+
+      domReady(function() {
+        var copyLinks = document.getElementsByClassName("copy-link");
+
+        for(var i = 0; i < copyLinks.length; i++) {
+          copyLinks[i].addEventListener('click', function(event){
+            document.execCommand("copy");
+            document.getElementById('copied-modal').classList.toggle("fade-in-then-out");
+            setTimeout(function(){
+              document.getElementById('copied-modal').classList.toggle("fade-in-then-out");
+            }, 3000); 
+          });
+
+          copyLinks[i].addEventListener("copy", function(event) {
+            event.preventDefault();
+            if (event.clipboardData) {
+              var copyTarget = document.getElementById(event.target.dataset.copyBlockId);
+              event.clipboardData.setData("text/plain", copyTarget.innerHTML.replace(/(\r\n\t|\n|\r\t)/gm,"").trim());
+              console.log(event.clipboardData.getData("text"))
+            }
+          });
+        }
+      });
+    </script>
+  </head>
+  <body class="invoice-page">
+
+    <div class="invoice">
+
+      <div class="header"></div>
+
+      <div class="payment-timer">
+        <p>
+          <span class="status">Awaiting payment...</span>
+          <span class="timer">30:00</span>
+        </p>
+      </div>
+
+      <div class="payment-type">
+        <p>
+          Pay using Lightning Network
+        </p>
+      </div>
+
+      <div class="item">
+        <p>
+          <span class="description">
+            Personal Haiku
+          </span>
+          <span class="price">
+            150,000 Satoshis
+          </span>
+        </p>
+      </div>
+
+      <div class="payment-tabs">
+        <div class="scan tab selected" onclick="togglePaymentMode()">
+          <i class="fas fa-qrcode"></i>
+        </div>
+        <div class="copy tab" onclick="togglePaymentMode()">
+          <i class="fas fa-clipboard"></i>
+        </div>
+      </div>
+
+      <div class="payment-interface qrcode" id="wallet-payment-qrcode">
+        <img src="https://chart.googleapis.com/chart?chs=250x250&amp;cht=qr&amp;chl=lightning:{{ payment_request }}">
+        <a href="#">Pay with wallet</a>
+      </div>
+
+      <div class="payment-interface copy-address hidden" id="wallet-payment-copy-address">
+        <div class="content">
+          <h2>Invoice</h2>
+          <p class="copy-block">
+            <span class="copy" id="invoice-address">
+              {{ payment_request }}
+            </span>
+            <i class="fas fa-clipboard copy-link" data-copy-block-id="invoice-address" id="copy-link-invoice"></i>
+          </p>
+
+
+          <h2>Node info</h2>
+          <p class="copy-block">
+            <span class="copy" id="node-address">
+              02b7aeeb7df1ca12c174a16b3a109c06a04c10f1b19290eb9a137b6cade7efc4a6@supernode.li:9735
+            </span>
+            <i class="fas fa-clipboard copy-link" data-copy-block-id="node-address" id="copy-link-node"></i>
+          </p>
+        </div>
+
+        <div id="copied-modal"><div class="modal">Copied to clipboard</div></div>
+      </div>
+
+    </div>
+
+    {% include "analytics.html" %}
+  </body>
+</html>

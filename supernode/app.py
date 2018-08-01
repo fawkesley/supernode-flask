@@ -119,5 +119,9 @@ def pi():
 def haiku():
     return render_template('haiku.html')
 
+@app.route('/invoice/')
+def invoice():
+    return render_template('invoice.html')
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
