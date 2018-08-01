@@ -7,13 +7,13 @@
 
 ## Development
 
-You'll need to migrate the database:
+### Migrate the database
 
 ```
-pipenv run flask db migrate
+make migrate
 ```
 
-This will create an SQLite3 database file.
+This will create `database.sqlite3`
 
 
 ### Fake invoices
