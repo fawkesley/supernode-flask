@@ -86,7 +86,7 @@ def make_invoice():
         product_slug = request.get_json()['product']
         satoshis = PRODUCTS[product_slug]
     except KeyError:
-        raise JsonError(status=400, message='Specify valid `product` in JSON')
+        raise JsonError(status_=400, message='Specify valid `product` in JSON')
 
     return {
         'payment_request': make_payment_request(satoshis),
@@ -101,8 +101,10 @@ def check_invoice_paid(payment_request):
 
     if invoice is None:
         raise JsonError(
-            status=400,
-            message='Specify valid `payment_request` in JSON'
+            status_=404,
+            message="No such invoice with that `payment_request`: '{}'".format(
+                payment_request
+                )
         )
 
     return {
