@@ -798,6 +798,9 @@ pre {
     .container-pi-header .image img {
       width: 100%; }
 
+body.haiku div.purchase-header {
+  background: #232732;
+  padding: 1rem 0; }
 body.haiku div.bitcoin-sun {
   height: 30rem;
   background: url("/static/images/bitcoin-sun.svg") #ffffff no-repeat center;

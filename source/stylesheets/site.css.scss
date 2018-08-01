@@ -299,6 +299,11 @@ pre {
 
 body.haiku {
 
+  div.purchase-header {
+    background: $dark-grey;
+    padding: 1rem 0;
+  }
+
   div.bitcoin-sun {
     height: 30rem;
     background: url("/static/images/bitcoin-sun.svg") #ffffff no-repeat center;
