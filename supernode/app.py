@@ -3,7 +3,7 @@
 import os
 import uuid
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from flask_json import FlaskJSON, as_json, JsonError
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -109,6 +109,28 @@ def check_invoice_paid(payment_request):
         'payment_request': invoice.payment_request,
         'paid': invoice.paid,
     }
+
+
+@app.route("/shop/<product_slug>/", methods=['GET'])
+def redirect_to_payment_request(product_slug):
+    satoshis = PRODUCTS[product_slug]
+    payment_request = make_payment_request(satoshis)
+
+    return redirect(
+        url_for(
+            'product_payment_request',
+            product=product_slug,
+            payment_request=payment_request
+        )
+    )
+
+
+@app.route("/invoice/<product>/<payment_request>/", methods=['GET'])
+def product_payment_request(product, payment_request):
+    return render_template(
+        'invoice.html',
+        payment_request=payment_request
+    )
 
 
 @app.route('/save-time-syncing-by-downloading-blockchain/')
