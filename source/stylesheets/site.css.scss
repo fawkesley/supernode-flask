@@ -299,12 +299,23 @@ pre {
 
 body.haiku {
 
-  background: #236dbc;
+  div.bitcoin-sun {
+    height: 30rem;
+    background: url("/static/images/bitcoin-sun.svg") #ffffff no-repeat center;
+    background-size: cover;
+    position: relative;
+    overflow-x:hidden;
+    overflow-y:hidden;
+    img {
+      height: 12rem;
+      position: absolute;
+      bottom: 0;
+    }
+  }
 
   div.bitcoin-waves {
-    height: 20rem;
-    background: url("/static/images/bitcoin-sun-on-waves.svg") #ffffff;
-    background-size: cover;
+    background: #236dbc;
+    padding-bottom: 3rem;
   }
 
   h1 {
@@ -371,9 +382,8 @@ body.haiku {
   }
 
   footer {
-    margin-top: 2rem;
+    margin-top: 0;
   }
-
 }
 
 body.invoice-page {
