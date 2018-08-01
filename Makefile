@@ -19,6 +19,12 @@ download_config:
 	scp supernode.li:/etc/nginx/sites-available/*supernode* etc/nginx/sites-available/
 	scp supernode.li:/etc/supervisor/conf.d/*supernode* etc/supervisor/conf.d/
 
+
+.PHONY: migrations
+migrations:
+	cd supernode; \
+	pipenv run flask db migrate
+
 .PHONY: migrate
 migrate:
 	cd supernode; \

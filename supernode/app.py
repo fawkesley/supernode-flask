@@ -158,7 +158,14 @@ def deliver_product(product_slug, payment_request):
     if product_slug == 'web-haiku':
         haiku = get_haiku_for_payment_request(payment_request)
 
-    return 'Have a Haiku! {}'.format(haiku.haiku)
+    line_1, line_2, line_3 = haiku.haiku.split('\n')
+
+    return render_template(
+        'web_haiku.html',
+        haiku_line_1=line_1,
+        haiku_line_2=line_2,
+        haiku_line_3=line_3,
+    )
 
 
 def get_haiku_for_payment_request(payment_request):
@@ -208,7 +215,8 @@ class InvoiceSyncer():
         self.cache_valid_remote_invoices()
         self.sync_remote_invoices_to_local()
 
-        self.delete_invalid_local_invoices()
+        # TODO: don't delete *paid* local invoices!!!
+        # self.delete_invalid_local_invoices()
         # self.delete_invalid_remote_invoices()
 
     def _echo(self, message):
