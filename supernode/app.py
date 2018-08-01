@@ -254,5 +254,26 @@ def watch_invoices():
         time.sleep(10)
 
 
+@app.cli.command()
+def add_haiku():
+    """Adds a haiku into the database ready to sell"""
+
+    while True:
+        print('\nenter haiku:\n')
+
+        haiku_lines = []
+
+        for i in range(3):
+            haiku_lines.append(input(''))
+
+        lines_joined = ('{}\n{}\n{}'.format(*[l.strip() for l in haiku_lines]))
+
+        haiku = Haiku(haiku=lines_joined, sold_to_payment_request=None)
+        db.session.add(haiku)
+        db.session.commit()
+
+        print('Saved haiku to db:\n\n{}\n'.format('\\ '.join(haiku_lines)))
+
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0')

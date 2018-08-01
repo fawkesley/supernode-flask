@@ -25,6 +25,11 @@ migrate:
 	FAKE_INVOICES=1 \
 	pipenv run flask db upgrade
 
+.PHONY: add_haiku
+add_haiku:
+	cd supernode; \
+	pipenv run flask add_haiku
+
 .PHONY: tunnel
 tunnel:
 	ssh -L 10009:localhost:10009 supernode.li
