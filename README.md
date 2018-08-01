@@ -16,6 +16,10 @@ pipenv run flask db migrate
 This will create an SQLite3 database file.
 
 
+### Fake invoices
+
+Set `FAKE_INVOICES=1` to prevent flask from talking to `lnd`. See `Makefile`.
+
 ## Invoice API
 
 ### Get an invoice (payment request) for a given product
