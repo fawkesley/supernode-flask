@@ -22,6 +22,7 @@ download_config:
 .PHONY: migrate
 migrate:
 	cd supernode; \
+	FAKE_INVOICES=1 \
 	pipenv run flask db upgrade
 
 .PHONY: tunnel
