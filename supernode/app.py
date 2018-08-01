@@ -4,7 +4,7 @@ import datetime
 import os
 import uuid
 
-from flask import Flask, render_template, request, redirect, url_for
+from flask import abort, Flask, render_template, request, redirect, url_for
 from flask_json import FlaskJSON, as_json, JsonError
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -150,7 +150,37 @@ def product_payment_request(product_slug, payment_request):
 
 @app.route("/shop/deliver/<product_slug>/<payment_request>/", methods=['GET'])
 def deliver_product(product_slug, payment_request):
-    return 'Have a Haiku!'
+    invoice = Invoice.query.get(payment_request)
+
+    if not invoice:
+        abort(404)  # invoice not paid
+
+    if product_slug == 'web-haiku':
+        haiku = get_haiku_for_payment_request(payment_request)
+
+    return 'Have a Haiku! {}'.format(haiku.haiku)
+
+
+def get_haiku_for_payment_request(payment_request):
+    sold_haiku = Haiku.query.filter_by(
+        sold_to_payment_request=payment_request
+    ).first()
+
+    if sold_haiku:
+        return sold_haiku
+
+    else:
+        random_haiku = Haiku.query.filter_by(
+            sold_to_payment_request=None
+        ).order_by('random()').first()
+
+        if random_haiku is None:
+            raise RuntimeError('Ran out of haikus!!')
+
+        random_haiku.sold_to_payment_request = payment_request
+        db.session.commit()
+        return random_haiku
+
 
 
 @app.route('/save-time-syncing-by-downloading-blockchain/')
