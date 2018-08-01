@@ -127,12 +127,18 @@ def redirect_to_payment_request(product_slug):
     )
 
 
-@app.route("/invoice/<product>/<payment_request>/", methods=['GET'])
-def product_payment_request(product, payment_request):
+@app.route("/invoice/<product_slug>/<payment_request>/", methods=['GET'])
+def product_payment_request(product_slug, payment_request):
     return render_template(
         'invoice.html',
+        product_slug=product_slug,
         payment_request=payment_request
     )
+
+
+@app.route("/shop/deliver/<product_slug>/<payment_request>/", methods=['GET'])
+def deliver_product(product_slug, payment_request):
+    return 'Have a Haiku!'
 
 
 @app.route('/save-time-syncing-by-downloading-blockchain/')
