@@ -4,7 +4,7 @@ import datetime
 import os
 import uuid
 
-from flask import Flask, render_template, request, redirect, url_for
+from flask import abort, Flask, render_template, request, redirect, url_for
 from flask_json import FlaskJSON, as_json, JsonError
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -75,6 +75,14 @@ class Invoice(db.Model):
     paid = db.Column(db.Boolean)
 
 
+class Haiku(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    haiku = db.Column(db.String(500))
+    sold_to_payment_request = db.Column(
+        db.String(500), index=True, nullable=True
+    )
+
+
 @app.route("/")
 def index():
     return render_template('index.html')
@@ -142,7 +150,37 @@ def product_payment_request(product_slug, payment_request):
 
 @app.route("/shop/deliver/<product_slug>/<payment_request>/", methods=['GET'])
 def deliver_product(product_slug, payment_request):
-    return 'Have a Haiku!'
+    invoice = Invoice.query.get(payment_request)
+
+    if not invoice:
+        abort(404)  # invoice not paid
+
+    if product_slug == 'web-haiku':
+        haiku = get_haiku_for_payment_request(payment_request)
+
+    return 'Have a Haiku! {}'.format(haiku.haiku)
+
+
+def get_haiku_for_payment_request(payment_request):
+    sold_haiku = Haiku.query.filter_by(
+        sold_to_payment_request=payment_request
+    ).first()
+
+    if sold_haiku:
+        return sold_haiku
+
+    else:
+        random_haiku = Haiku.query.filter_by(
+            sold_to_payment_request=None
+        ).order_by('random()').first()
+
+        if random_haiku is None:
+            raise RuntimeError('Ran out of haikus!!')
+
+        random_haiku.sold_to_payment_request = payment_request
+        db.session.commit()
+        return random_haiku
+
 
 
 @app.route('/save-time-syncing-by-downloading-blockchain/')
@@ -244,6 +282,27 @@ def watch_invoices():
         syncer = InvoiceSyncer(lnd, echo=click.echo)
         syncer.sync()
         time.sleep(10)
+
+
+@app.cli.command()
+def add_haiku():
+    """Adds a haiku into the database ready to sell"""
+
+    while True:
+        print('\nenter haiku:\n')
+
+        haiku_lines = []
+
+        for i in range(3):
+            haiku_lines.append(input(''))
+
+        lines_joined = ('{}\n{}\n{}'.format(*[l.strip() for l in haiku_lines]))
+
+        haiku = Haiku(haiku=lines_joined, sold_to_payment_request=None)
+        db.session.add(haiku)
+        db.session.commit()
+
+        print('Saved haiku to db:\n\n{}\n'.format('\\ '.join(haiku_lines)))
 
 
 if __name__ == "__main__":
