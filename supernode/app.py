@@ -215,8 +215,7 @@ class InvoiceSyncer():
         self.cache_valid_remote_invoices()
         self.sync_remote_invoices_to_local()
 
-        # TODO: don't delete *paid* local invoices!!!
-        # self.delete_invalid_local_invoices()
+        self.delete_invalid_local_invoices()
         # self.delete_invalid_remote_invoices()
 
     def _echo(self, message):
@@ -224,13 +223,15 @@ class InvoiceSyncer():
 
     def cache_valid_remote_invoices(self):
         for remote_invoice in lnd.list_invoices().invoices:
-            if not self.has_expired(remote_invoice):
+            if self.is_interesting(remote_invoice):
                 self._remote_cache[
                     remote_invoice.payment_request
                 ] = remote_invoice
 
-            # ignore expired remote invoices
-        self.echo('Cached {} remote invoices'.format(len(self._remote_cache)))
+        self.echo('Found {} remote invoices'.format(len(self._remote_cache)))
+
+    def is_interesting(self, remote_invoice):
+        return remote_invoice.settled or not self.has_expired(remote_invoice)
 
     def sync_remote_invoices_to_local(self):
         dirty = False
@@ -274,7 +275,9 @@ class InvoiceSyncer():
             len(self._delete_local))
         )
         for invoice in self._delete_local:
+            self.echo(' - deleting `{}`'.format(invoice.payment_request))
             db.session.delete(invoice)
+
         db.session.commit()
 
 
