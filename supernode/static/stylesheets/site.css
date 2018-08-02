@@ -798,67 +798,78 @@ pre {
     .container-pi-header .image img {
       width: 100%; }
 
-body.haiku {
-  background: #236dbc; }
-  body.haiku div.bitcoin-waves {
-    height: 20rem;
-    background: url("/static/images/bitcoin-sun-on-waves.svg") #ffffff;
-    background-size: cover; }
-  body.haiku h1 {
-    color: #ffffff; }
-  body.haiku div.example-haiku {
-    -webkit-border-radius: 1rem;
-    -moz-border-radius: 1rem;
-    -ms-border-radius: 1rem;
-    border-radius: 1rem;
-    margin: 2rem 0;
-    background: #ffffff;
-    padding: 2rem; }
-    body.haiku div.example-haiku p {
-      font-size: 1.5rem;
-      line-height: 2.5rem;
-      padding: 0;
-      margin: 0; }
-    body.haiku div.example-haiku .ribbon span {
-      background: #eb232c; }
-    body.haiku div.example-haiku .ribbon::before,
-    body.haiku div.example-haiku .ribbon::after {
-      border: 5px solid #9C0E14; }
-  body.haiku .buy-haiku {
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #89c403), color-stop(1, #77a809));
-    background: -moz-linear-gradient(top, #89c403 5%, #77a809 100%);
-    background: -webkit-linear-gradient(top, #89c403 5%, #77a809 100%);
-    background: -o-linear-gradient(top, #89c403 5%, #77a809 100%);
-    background: -ms-linear-gradient(top, #89c403 5%, #77a809 100%);
-    background: linear-gradient(to bottom, #89c403 5%, #77a809 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#89c403', endColorstr='#77a809',GradientType=0);
-    background-color: #89c403;
-    -moz-border-radius: 6px;
-    -webkit-border-radius: 6px;
-    border-radius: 6px;
-    border: 1px solid #74b807;
-    display: block;
-    cursor: pointer;
-    color: #ffffff;
+body.haiku div.purchase-header {
+  background: #232732;
+  padding: 1rem 0; }
+body.haiku div.bitcoin-sun {
+  height: 30rem;
+  background: url("/static/images/bitcoin-sun.svg") #ffffff no-repeat center;
+  background-size: cover;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: hidden; }
+  body.haiku div.bitcoin-sun img {
+    height: 12rem;
+    position: absolute;
+    bottom: 0; }
+body.haiku div.bitcoin-waves {
+  background: #236dbc;
+  padding-bottom: 3rem; }
+body.haiku h1 {
+  color: #ffffff; }
+body.haiku div.example-haiku {
+  -webkit-border-radius: 1rem;
+  -moz-border-radius: 1rem;
+  -ms-border-radius: 1rem;
+  border-radius: 1rem;
+  margin: 2rem 0;
+  background: #ffffff;
+  padding: 2rem; }
+  body.haiku div.example-haiku p {
     font-size: 1.5rem;
-    padding: 11px 24px;
-    text-decoration: none;
-    text-shadow: 0px 1px 0px #528009;
-    text-align: center; }
-  body.haiku .buy-haiku:hover {
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #77a809), color-stop(1, #89c403));
-    background: -moz-linear-gradient(top, #77a809 5%, #89c403 100%);
-    background: -webkit-linear-gradient(top, #77a809 5%, #89c403 100%);
-    background: -o-linear-gradient(top, #77a809 5%, #89c403 100%);
-    background: -ms-linear-gradient(top, #77a809 5%, #89c403 100%);
-    background: linear-gradient(to bottom, #77a809 5%, #89c403 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#77a809', endColorstr='#89c403',GradientType=0);
-    background-color: #77a809; }
-  body.haiku .buy-haiku:active {
-    position: relative;
-    top: 1px; }
-  body.haiku footer {
-    margin-top: 2rem; }
+    line-height: 2.5rem;
+    padding: 0;
+    margin: 0; }
+  body.haiku div.example-haiku .ribbon span {
+    background: #eb232c; }
+  body.haiku div.example-haiku .ribbon::before,
+  body.haiku div.example-haiku .ribbon::after {
+    border: 5px solid #9C0E14; }
+body.haiku .buy-haiku {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #89c403), color-stop(1, #77a809));
+  background: -moz-linear-gradient(top, #89c403 5%, #77a809 100%);
+  background: -webkit-linear-gradient(top, #89c403 5%, #77a809 100%);
+  background: -o-linear-gradient(top, #89c403 5%, #77a809 100%);
+  background: -ms-linear-gradient(top, #89c403 5%, #77a809 100%);
+  background: linear-gradient(to bottom, #89c403 5%, #77a809 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#89c403', endColorstr='#77a809',GradientType=0);
+  background-color: #89c403;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
+  border: 1px solid #74b807;
+  display: block;
+  cursor: pointer;
+  color: #ffffff;
+  font-size: 1.5rem;
+  padding: 11px 24px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #528009;
+  text-align: center; }
+body.haiku .buy-haiku:hover {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #77a809), color-stop(1, #89c403));
+  background: -moz-linear-gradient(top, #77a809 5%, #89c403 100%);
+  background: -webkit-linear-gradient(top, #77a809 5%, #89c403 100%);
+  background: -o-linear-gradient(top, #77a809 5%, #89c403 100%);
+  background: -ms-linear-gradient(top, #77a809 5%, #89c403 100%);
+  background: linear-gradient(to bottom, #77a809 5%, #89c403 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#77a809', endColorstr='#89c403',GradientType=0);
+  background-color: #77a809; }
+body.haiku .buy-haiku:active {
+  position: relative;
+  top: 1px; }
+body.haiku footer {
+  margin-top: 0; }
 
 body.invoice-page {
   background: #ffffff;
